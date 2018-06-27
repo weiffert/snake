@@ -9,6 +9,7 @@ class Board extends React.Component {
       locations: [],
       life: true,
       snake: [],
+      direction: 2,
     };
 
     for (let i = 0; i < 400; i++) {
@@ -16,14 +17,69 @@ class Board extends React.Component {
     }
 
     for (let i = 0; i < 3; i++) {
-      this.state.snake.push([200 + i]);
+      this.state.snake.push(209 + i);
     }
+
+    setInterval(this.move, 200);
+    window.addEventListener("keydown", this.handleKey);
   }
 
+  move = () => {
+    const locations = [...this.state.locations];
+    const snake = [...this.state.snake];
+    snake.forEach(location => (locations[location] = false));
+
+    let difference = 0;
+    switch (this.state.direction) {
+      case 1:
+        difference = -20;
+        break;
+      case 2:
+        difference = 1;
+        break;
+      case 3:
+        difference = 20;
+        break;
+      case 4:
+        difference = -1;
+        break;
+    }
+
+    snake.shift();
+    snake.push(snake[snake.length - 1] + difference);
+
+    snake.forEach(location => (locations[location] = true));
+
+    this.setState({ locations, snake });
+  };
+
+  handleKey = event => {
+    let direction = 0;
+    switch (event.keyCode) {
+      case 37:
+      case 65:
+        direction += 1;
+      case 40:
+      case 83:
+        direction += 1;
+      case 39:
+      case 68:
+        direction += 1;
+      case 38:
+      case 87:
+        direction += 1;
+    }
+    this.setState({ direction });
+  };
+
   render = () => {
-    return <div className="Board" style={this.defaultStyle}>
-      {this.state.locations.map((location,index) => <Location active={location} key={index}/>)}
-    </div>;
+    return (
+      <div className="Board" style={this.defaultStyle}>
+        {this.state.locations.map((location, index) => (
+          <Location active={location} key={index} />
+        ))}
+      </div>
+    );
   };
 
   defaultStyle = {
