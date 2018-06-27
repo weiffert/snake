@@ -5,14 +5,14 @@ class Location extends React.Component {
     let style = { ...this.defaultStyle };
 
     if (this.props.active) {
-      style = { ...this.snakeStyle, ...this.defaultStyle };
+      style = { ...this.defaultStyle, ...this.snakeStyle };
     }
 
-    return <div className="Location" style={style} key={this.props.key}/>;
+    return <div className="Location" style={style} />;
   };
 
   snakeStyle = {
-    backgroundColor: `#999`,
+    backgroundColor: `#666`,
   };
 
   defaultStyle = {
