@@ -48,7 +48,19 @@ class Board extends React.Component {
     snake.shift();
     snake.push(snake[snake.length - 1] + difference);
 
+    let fail = false;
+    for (let i = 0; i < snake.length; i++) {
+      if (snake[i] < 0 || snake[i] >= 20 * 20) {
+        fail = true;
+      }
+      if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
+        fail = true;
+      }
+    }
+
     snake.forEach(location => (locations[location] = true));
+    if(fail)
+      alert(snake);
 
     this.setState({ locations, snake });
   };
@@ -69,7 +81,7 @@ class Board extends React.Component {
       case 87:
         direction += 1;
     }
-    this.setState({ direction });
+    if (direction != 0) this.setState({ direction });
   };
 
   render = () => {
