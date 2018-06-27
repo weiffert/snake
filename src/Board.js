@@ -59,8 +59,7 @@ class Board extends React.Component {
     }
 
     snake.forEach(location => (locations[location] = true));
-    if(fail)
-      alert(snake);
+    if (fail) this.setState({ life: false });
 
     this.setState({ locations, snake });
   };
@@ -81,15 +80,19 @@ class Board extends React.Component {
       case 87:
         direction += 1;
     }
-    if (direction != 0) this.setState({ direction });
+    if (direction !== 0) this.setState({ direction });
   };
 
   render = () => {
     return (
       <div className="Board" style={this.defaultStyle}>
-        {this.state.locations.map((location, index) => (
-          <Location active={location} key={index} />
-        ))}
+        {this.state.life ? (
+          this.state.locations.map((location, index) => (
+            <Location active={location} key={index} />
+          ))
+        ) : (
+          <p>DEAD</p>
+        )}
       </div>
     );
   };
