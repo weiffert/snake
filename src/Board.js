@@ -19,10 +19,18 @@ class Board extends React.Component {
     for (let i = 0; i < 3; i++) {
       this.state.snake.push(209 + i);
     }
+    
+    this.state.locations[Math.floor(Math.random() * 400)] = true;
 
     setInterval(this.move, 200);
     window.addEventListener("keydown", this.handleKey);
   }
+
+  nextPiece = () => {
+    const locations = [...this.state.locations];
+    locations[Math.floor(Math.random() * 400)] = true;
+    this.setState({ locations });
+  };
 
   move = () => {
     const locations = [...this.state.locations];
@@ -45,8 +53,9 @@ class Board extends React.Component {
         break;
     }
 
-    snake.shift();
     snake.push(snake[snake.length - 1] + difference);
+    if (locations[snake[snake.length - 1]]) this.nextPiece();
+    else snake.shift();
 
     let fail = false;
     for (let i = 0; i < snake.length; i++) {
