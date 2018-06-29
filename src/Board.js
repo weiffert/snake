@@ -17,7 +17,7 @@ class Board extends React.Component {
     }
 
     for (let i = 0; i < 3; i++) {
-      this.state.snake.push(211 - i);
+      this.state.snake.push(209 + i);
     }
 
     this.state.locations[Math.floor(Math.random() * 400)] = 1;
@@ -76,6 +76,11 @@ class Board extends React.Component {
     snake.forEach(location => {
       locations[location] = true;
     });
+
+    for(let i = 1; i < snake.length; i++) {
+      if(snake[0] === snake[i])
+        fail = true;
+    }
 
     if (fail) this.setState({ life: false });
 
