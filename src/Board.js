@@ -9,33 +9,27 @@ class Board extends React.Component {
       locations: [],
       life: true,
       snake: [],
-      direction: 2,
+      direction: 4,
     };
 
     for (let i = 0; i < 400; i++) {
-      this.state.locations.push(false);
+      this.state.locations.push(0);
     }
 
     for (let i = 0; i < 3; i++) {
-      this.state.snake.push(209 + i);
+      this.state.snake.push(211 - i);
     }
-    
-    this.state.locations[Math.floor(Math.random() * 400)] = true;
+
+    this.state.locations[Math.floor(Math.random() * 400)] = 1;
 
     setInterval(this.move, 200);
     window.addEventListener("keydown", this.handleKey);
   }
 
-  nextPiece = () => {
-    const locations = [...this.state.locations];
-    locations[Math.floor(Math.random() * 400)] = true;
-    this.setState({ locations });
-  };
-
   move = () => {
     const locations = [...this.state.locations];
     const snake = [...this.state.snake];
-    snake.forEach(location => (locations[location] = false));
+    snake.forEach(location => (locations[location] = 0));
 
     let difference = 0;
     switch (this.state.direction) {
@@ -53,21 +47,36 @@ class Board extends React.Component {
         break;
     }
 
-    snake.push(snake[snake.length - 1] + difference);
-    if (locations[snake[snake.length - 1]]) this.nextPiece();
-    else snake.shift();
+    snake.unshift(snake[0] + difference);
 
     let fail = false;
     for (let i = 0; i < snake.length; i++) {
       if (snake[i] < 0 || snake[i] >= 20 * 20) {
         fail = true;
       }
+
       if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
         fail = true;
       }
     }
 
-    snake.forEach(location => (locations[location] = true));
+    let next = false;
+    snake.forEach(location => {
+      if (locations[location]) {
+        let local = Math.floor(Math.random() * 400);
+        while(locations[local])
+          local = Math.floor(Math.random() * 400);
+        locations[local] = 1;
+        next = true;
+      }
+    });
+
+    if (!next) snake.pop();
+
+    snake.forEach(location => {
+      locations[location] = true;
+    });
+
     if (fail) this.setState({ life: false });
 
     this.setState({ locations, snake });
