@@ -7,9 +7,10 @@ class Board extends React.Component {
     super(props);
     this.state = {
       locations: [],
-      life: true,
       snake: [],
+      life: true,
       direction: 2,
+      moveBacklog: [],
     };
 
     for (let i = 0; i < 400; i++) {
@@ -34,7 +35,8 @@ class Board extends React.Component {
     snake.forEach(location => (locations[location] = 0));
 
     let difference = 0;
-    switch (this.state.direction) {
+    const direction = this.state.moveBacklog.shift() || this.state.direction;
+    switch (direction) {
       // up
       case 1:
         difference = -20;
@@ -102,7 +104,7 @@ class Board extends React.Component {
       // Clear timer here if desired.
     }
 
-    this.setState({ locations, snake });
+    this.setState({ locations, snake, direction });
   };
 
   handleKey = event => {
@@ -124,7 +126,7 @@ class Board extends React.Component {
       case 83:
         direction = 3;
         break;
-      // Left 
+      // Left
       case 37:
       case 65:
         direction = 4;
@@ -132,8 +134,11 @@ class Board extends React.Component {
     }
 
     // If a valid key was pressed and it is not in the opposite direction, change direction.
-    if (direction !== 0 && (this.state.direction - direction) % 2 !== 0)
-      this.setState({ direction });
+    if (direction !== 0 && (this.state.direction - direction) % 2 !== 0) {
+      const moveBacklog = [...this.state.moveBacklog];
+      moveBacklog.push(direction);
+      this.setState({ moveBacklog });
+    }
   };
 
   render = () => {
