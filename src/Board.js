@@ -64,8 +64,7 @@ class Board extends React.Component {
     snake.forEach(location => {
       if (locations[location]) {
         let local = Math.floor(Math.random() * 400);
-        while(locations[local])
-          local = Math.floor(Math.random() * 400);
+        while (locations[local]) local = Math.floor(Math.random() * 400);
         locations[local] = 1;
         next = true;
       }
@@ -77,9 +76,8 @@ class Board extends React.Component {
       locations[location] = true;
     });
 
-    for(let i = 1; i < snake.length; i++) {
-      if(snake[0] === snake[i])
-        fail = true;
+    for (let i = 1; i < snake.length; i++) {
+      if (snake[0] === snake[i]) fail = true;
     }
 
     if (fail) this.setState({ life: false });
@@ -103,7 +101,8 @@ class Board extends React.Component {
       case 87:
         direction += 1;
     }
-    if (direction !== 0) this.setState({ direction });
+    if (direction !== 0 && (this.state.direction - direction) % 2 !== 0)
+      this.setState({ direction });
   };
 
   render = () => {
