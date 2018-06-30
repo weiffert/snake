@@ -4,22 +4,40 @@ class Location extends React.Component {
   render = () => {
     let style = { ...this.defaultStyle };
 
-    if (this.props.active) {
-      style = { ...this.defaultStyle, ...this.snakeStyle };
+    switch(this.props.active) {
+      case 1:
+        style = {...this.defaultStyle, ...this.oneStyle };
+        break;
+      case 2:
+        style = {...this.defaultStyle, ...this.twoStyle};
+        break;
+      case 3:
+        style = {...this.defaultStyle, ...this.threeStyle };
+        break;
+      default:
+        style = {...this.defaultStyle };
     }
 
     return <div className="Location" style={style} />;
   };
 
-  snakeStyle = {
-    backgroundColor: `#666`,
+  oneStyle = {
+    backgroundColor: `#ccc`,
   };
+
+  twoStyle = {
+    backgroundColor: `#666`,
+  }
+  
+  threeStyle= {
+    backgroundColor: `#000`,
+  }
 
   defaultStyle = {
     width: `5%`,
     height: `5%`,
-    backgroundColor: `#ccc`,
-    border: `1px solid white`,
+    backgroundColor: `#fff`,
+    border: `1px solid #ccc`,
     boxSizing: `border-box`,
   };
 }

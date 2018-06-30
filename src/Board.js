@@ -33,15 +33,19 @@ class Board extends React.Component {
 
     let difference = 0;
     switch (this.state.direction) {
+      // up
       case 1:
         difference = -20;
         break;
+      // right
       case 2:
         difference = 1;
         break;
+      // down
       case 3:
         difference = 20;
         break;
+      // left
       case 4:
         difference = -1;
         break;
@@ -72,8 +76,9 @@ class Board extends React.Component {
 
     if (!next) snake.pop();
 
-    snake.forEach(location => {
-      locations[location] = true;
+    snake.forEach((location, index) => {
+      if (index === 0) locations[location] = 3;
+      else locations[location] = 2;
     });
 
     for (let i = 1; i < snake.length; i++) {
@@ -87,6 +92,7 @@ class Board extends React.Component {
 
   handleKey = event => {
     let direction = 0;
+    // Respond to both ASDF and arrow keys.
     switch (event.keyCode) {
       case 37:
       case 65:
