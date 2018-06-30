@@ -9,7 +9,7 @@ class Board extends React.Component {
       locations: [],
       life: true,
       snake: [],
-      direction: 4,
+      direction: 2,
     };
 
     for (let i = 0; i < 400; i++) {
@@ -17,7 +17,7 @@ class Board extends React.Component {
     }
 
     for (let i = 0; i < 3; i++) {
-      this.state.snake.push(209 + i);
+      this.state.snake.push(210 - i);
     }
 
     this.state.locations[Math.floor(Math.random() * 400)] = 1;
