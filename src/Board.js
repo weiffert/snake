@@ -1,6 +1,7 @@
 import React from "react";
 
 import Location from "./Location";
+import Splash from "./Splash";
 
 class Board extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class Board extends React.Component {
     this.state = {
       locations: [],
       snake: [],
-      life: true,
+      life: false,
       direction: 2,
       moveBacklog: [],
     };
@@ -149,7 +150,7 @@ class Board extends React.Component {
             <Location active={location} key={index} />
           ))
         ) : (
-          <p>DEAD</p>
+          <Splash />
         )}
       </div>
     );
