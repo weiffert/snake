@@ -12,21 +12,30 @@ class Board extends React.Component {
       life: false,
       direction: 2,
       moveBacklog: [],
+      speed: 500,
+      wrap: false,
+      intervalId: "",
     };
-
-    for (let i = 0; i < 400; i++) {
-      this.state.locations.push(0);
-    }
-
-    for (let i = 0; i < 3; i++) {
-      this.state.snake.push(210 - i);
-    }
-
-    this.state.locations[Math.floor(Math.random() * 400)] = 1;
-
-    setInterval(this.move, 200);
-    window.addEventListener("keydown", this.handleKey);
   }
+
+  componentDidMount = () => {
+    this.resetBoard();
+    window.addEventListener("keydown", this.handleKey);
+  };
+
+  resetBoard = () => {
+    const locations = [];
+    for (let i = 0; i < 400; i++) {
+      locations.push(0);
+    }
+    locations[Math.floor(Math.random() * 400)] = 1;
+
+    const snake = [];
+    for (let i = 0; i < 3; i++) {
+      snake.push(210 - i);
+    }
+    this.setState({ locations, snake });
+  };
 
   move = () => {
     const locations = [...this.state.locations];
@@ -100,46 +109,59 @@ class Board extends React.Component {
       else locations[location] = 2;
     });
 
-    if (fail) {
-      this.setState({ life: false });
-      // Clear timer here if desired.
-    }
-
     this.setState({ locations, snake, direction });
+
+    if (fail) {
+      clearInterval(this.state.intervalId);
+      this.setState({ life: false });
+      this.resetBoard();
+    }
   };
 
   handleKey = event => {
-    let direction = 0;
-    // Respond to both ASDF and arrow keys.
-    switch (event.keyCode) {
-      // Up
-      case 38:
-      case 87:
-        direction = 1;
-        break;
-      // Right
-      case 39:
-      case 68:
-        direction = 2;
-        break;
-      // Down
-      case 40:
-      case 83:
-        direction = 3;
-        break;
-      // Left
-      case 37:
-      case 65:
-        direction = 4;
-        break;
-    }
+    if (!this.state.life) {
+      this.setState({ life: true, intervalId: setInterval(this.move, 200) });
+    } else {
+      let direction = 0;
+      // Respond to both ASDF and arrow keys.
+      switch (event.keyCode) {
+        // Up
+        case 38:
+        case 87:
+          direction = 1;
+          break;
+        // Right
+        case 39:
+        case 68:
+          direction = 2;
+          break;
+        // Down
+        case 40:
+        case 83:
+          direction = 3;
+          break;
+        // Left
+        case 37:
+        case 65:
+          direction = 4;
+          break;
+      }
 
-    // If a valid key was pressed and it is not in the opposite direction, change direction.
-    if (direction !== 0 && (this.state.direction - direction) % 2 !== 0) {
-      const moveBacklog = [...this.state.moveBacklog];
-      moveBacklog.push(direction);
-      this.setState({ moveBacklog });
+      // If a valid key was pressed and it is not in the opposite direction, change direction.
+      if (direction !== 0 && (this.state.direction - direction) % 2 !== 0) {
+        const moveBacklog = [...this.state.moveBacklog];
+        moveBacklog.push(direction);
+        this.setState({ moveBacklog });
+      }
     }
+  };
+
+  updateForm = event => {
+    const value = this.state[event.target.name];
+
+    const state = { ...state };
+    state[event.target.id] = event.target.value;
+    this.setState(state);
   };
 
   render = () => {
@@ -150,7 +172,11 @@ class Board extends React.Component {
             <Location active={location} key={index} />
           ))
         ) : (
-          <Splash />
+          <Splash
+            updateForm={this.updateForm}
+            speed={this.state.speed}
+            wrap={this.state.wrap}
+          />
         )}
       </div>
     );
