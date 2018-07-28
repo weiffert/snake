@@ -73,12 +73,16 @@ class Board extends React.Component {
     // Test for crossing edges.
     if (this.state.wrap) {
       for (let i = 0; i < snake.length; i++) {
+        // Test wrap around up and down.
         if (snake[i] < 0) snake[i] += 20 * 20;
         else if (snake[i] >= 20 * 20) snake[i] -= 20 * 20;
 
         // Test for accidental wrap around from structure.
-        if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
-          fail = true;
+        if ((snake[i] % 20) - (snake[i + 1] % 20) > 1) {
+          snake[i] += 20;
+        }
+        if ((snake[i] % 20) - (snake[i + 1] % 20) < -1) {
+          snake[i] -= 20;
         }
       }
     } else {
