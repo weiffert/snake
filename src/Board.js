@@ -71,14 +71,26 @@ class Board extends React.Component {
     // Test for valid positioning.
     let fail = false;
     // Test for crossing edges.
-    for (let i = 0; i < snake.length; i++) {
-      if (snake[i] < 0 || snake[i] >= 20 * 20) {
-        fail = true;
-      }
+    if (this.state.wrap) {
+      for (let i = 0; i < snake.length; i++) {
+        if (snake[i] < 0) snake[i] += 20 * 20;
+        else if (snake[i] >= 20 * 20) snake[i] -= 20 * 20;
 
-      // Test for accidental wrap around from structure.
-      if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
-        fail = true;
+        // Test for accidental wrap around from structure.
+        if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
+          fail = true;
+        }
+      }
+    } else {
+      for (let i = 0; i < snake.length; i++) {
+        if (snake[i] < 0 || snake[i] >= 20 * 20) {
+          fail = true;
+        }
+
+        // Test for accidental wrap around from structure.
+        if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
+          fail = true;
+        }
       }
     }
 
@@ -120,7 +132,10 @@ class Board extends React.Component {
 
   handleKey = event => {
     if (!this.state.life) {
-      this.setState({ life: true, intervalId: setInterval(this.move, 200) });
+      this.setState({
+        life: true,
+        intervalId: setInterval(this.move, this.state.speed),
+      });
     } else {
       let direction = 0;
       // Respond to both ASDF and arrow keys.
@@ -167,17 +182,18 @@ class Board extends React.Component {
   render = () => {
     return (
       <div className="Board" style={this.defaultStyle}>
-        {this.state.life ? (
-          this.state.locations.map((location, index) => (
-            <Location active={location} key={index} />
-          ))
-        ) : (
+        {!this.state.life ? (
           <Splash
             updateForm={this.updateForm}
             speed={this.state.speed}
             wrap={this.state.wrap}
           />
+        ) : (
+          ""
         )}
+        {this.state.locations.map((location, index) => (
+          <Location active={location} key={index} />
+        ))}
       </div>
     );
   };
