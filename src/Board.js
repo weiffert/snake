@@ -77,30 +77,25 @@ class Board extends React.Component {
     // Test for valid positioning.
     let fail = false;
     // Test for crossing edges.
+    // Wrap around enabled.
     if (this.state.wrap) {
-      for (let i = 0; i < snake.length; i++) {
-        // Test wrap around up and down.
-        if (snake[i] < 0) snake[i] += 20 * 20;
-        else if (snake[i] >= 20 * 20) snake[i] -= 20 * 20;
+      // Test wrap around up and down.
+      if (snake[0] < 0) snake[0] += 20 * 20;
+      else if (snake[0] >= 20 * 20) snake[0] -= 20 * 20;
 
-        // Test for accidental wrap around from structure.
-        if (i === 0)
-          if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
-            if (direction == 2) snake[i] -= 20;
-            else if (direction == 4) snake[i] += 20;
-          }
-        // if ((snake[i] % 20) - (snake[i + 1] % 20) < -1) {
-        //   snake[i] -= 20;
-        // }
+      // Account horizontally
+      if (Math.abs((snake[0] % 20) - (snake[1] % 20)) > 1) {
+        if (direction == 2) snake[0] -= 20;
+        else if (direction == 4) snake[0] += 20;
       }
+      // Killer edges enabled
     } else {
-      for (let i = 0; i < snake.length; i++) {
-        if (snake[i] < 0 || snake[i] >= 20 * 20) {
+        if (snake[0] < 0 || snake[0] >= 20 * 20) {
           fail = true;
         }
 
         // Test for accidental wrap around from structure.
-        if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
+        if (Math.abs((snake[0] % 20) - (snake[1] % 20)) > 1) {
           fail = true;
         }
       }
