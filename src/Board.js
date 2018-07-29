@@ -189,7 +189,7 @@ class Board extends React.Component {
         {!this.state.life ? (
           <Splash
             updateForm={this.updateForm}
-            speed={-1 * this.state.speed}
+            speed={this.state.speed}
             wrap={this.state.wrap}
           />
         ) : (

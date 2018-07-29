@@ -9,7 +9,7 @@ class Splash extends React.Component {
         <div>
           <form onChange={this.props.updateForm} onSubmit={this.props.start}>
             <div>
-              <label for="speed">Speed</label>
+              <label for="speed">Fast</label>
               <input
                 type="range"
                 id="speed"
@@ -18,6 +18,7 @@ class Splash extends React.Component {
                 step="5"
                 value={this.props.speed}
               />
+              <label for="speed">Slow</label>
             </div>
             <div>
               <input
