@@ -34,7 +34,13 @@ class Board extends React.Component {
     for (let i = 0; i < 3; i++) {
       snake.push(210 - i);
     }
-    this.setState({ locations, snake });
+    this.setState({
+      locations,
+      snake,
+      life: false,
+      moveBacklog: [],
+      direction: 2,
+    });
   };
 
   move = () => {
@@ -129,7 +135,6 @@ class Board extends React.Component {
 
     if (fail) {
       clearInterval(this.state.intervalId);
-      this.setState({ life: false });
       this.resetBoard();
     }
   };
