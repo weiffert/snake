@@ -135,7 +135,7 @@ class Board extends React.Component {
   };
 
   handleKey = event => {
-    if (!this.state.life) {
+    if (!this.state.life && event.keyCode == 32) {
       this.setState({
         life: true,
         intervalId: setInterval(this.move, this.state.speed),
@@ -189,7 +189,7 @@ class Board extends React.Component {
         {!this.state.life ? (
           <Splash
             updateForm={this.updateForm}
-            speed={this.state.speed}
+            speed={-1 * this.state.speed}
             wrap={this.state.wrap}
           />
         ) : (

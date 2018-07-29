@@ -28,7 +28,7 @@ class Splash extends React.Component {
               <label for="wrap">Enable wrap around</label>
             </div>
           </form>
-          <h1>Press any key to start</h1>
+          <h1>Press space to start</h1>
         </div>
       </div>
     );
