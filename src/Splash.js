@@ -7,6 +7,7 @@ class Splash extends React.Component {
     return (
       <div className="Splash">
         <div>
+          <h1>Last score: {this.props.score}</h1>
           <form onChange={this.props.updateForm} onSubmit={this.props.start}>
             <div>
               <label for="speed">Fast</label>

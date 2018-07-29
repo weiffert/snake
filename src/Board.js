@@ -15,6 +15,7 @@ class Board extends React.Component {
       speed: 500,
       wrap: false,
       intervalId: "",
+      score: 0,
     };
   }
 
@@ -109,6 +110,7 @@ class Board extends React.Component {
         local = Math.floor(Math.random() * 400);
       }
       locations[local] = 1;
+      this.setState({ score: this.state.score + 1 });
     } else {
       // Otherwise, remove the back piece.
       snake.pop();
@@ -189,6 +191,7 @@ class Board extends React.Component {
       <div className="Board" style={this.defaultStyle}>
         {!this.state.life ? (
           <Splash
+            score={this.state.score}
             updateForm={this.updateForm}
             speed={this.state.speed}
             wrap={this.state.wrap}
