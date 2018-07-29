@@ -84,12 +84,14 @@ class Board extends React.Component {
         else if (snake[i] >= 20 * 20) snake[i] -= 20 * 20;
 
         // Test for accidental wrap around from structure.
-        if ((snake[i] % 20) - (snake[i + 1] % 20) > 1) {
-          snake[i] += 20;
-        }
-        if ((snake[i] % 20) - (snake[i + 1] % 20) < -1) {
-          snake[i] -= 20;
-        }
+        if (i === 0)
+          if (Math.abs((snake[i] % 20) - (snake[i + 1] % 20)) > 1) {
+            if (direction == 2) snake[i] -= 20;
+            else if (direction == 4) snake[i] += 20;
+          }
+        // if ((snake[i] % 20) - (snake[i + 1] % 20) < -1) {
+        //   snake[i] -= 20;
+        // }
       }
     } else {
       for (let i = 0; i < snake.length; i++) {
