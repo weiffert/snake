@@ -7,9 +7,6 @@ import Board from "./Board";
  * TODO: 
  * customize size to fit screen.
  * make rectangles square.
- * make a scoring system.
- *  store high scores locally.
- * comment
 */
 
 class App extends Component {
@@ -20,8 +17,6 @@ class App extends Component {
       </div>
     );
   }
-
-  
 }
 
 export default App;
