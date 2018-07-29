@@ -90,14 +90,13 @@ class Board extends React.Component {
       }
       // Killer edges enabled
     } else {
-        if (snake[0] < 0 || snake[0] >= 20 * 20) {
-          fail = true;
-        }
+      if (snake[0] < 0 || snake[0] >= 20 * 20) {
+        fail = true;
+      }
 
-        // Test for accidental wrap around from structure.
-        if (Math.abs((snake[0] % 20) - (snake[1] % 20)) > 1) {
-          fail = true;
-        }
+      // Test for accidental wrap around from structure.
+      if (Math.abs((snake[0] % 20) - (snake[1] % 20)) > 1) {
+        fail = true;
       }
     }
 
